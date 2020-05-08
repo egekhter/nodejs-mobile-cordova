@@ -57,6 +57,7 @@
   <platform name="android">
 
     <hook type="before_plugin_install" src="install/hooks/android/before-plugin-install.js" />
+    <hook type="after_plugin_install" src="install/hooks/android/after-plugin-install.js" />
     <hook type="after_prepare" src="install/hooks/android/after-prepare-build-node-assets-lists.js" />
     <hook type="after_prepare" src="install/hooks/both/after-prepare-patch-npm-packages.js" />
     <hook type="after_prepare" src="install/hooks/android/after-prepare-create-macOS-builder-helper.js" />
@@ -73,10 +74,6 @@
       <uses-permission android:name="android.permission.WRITE_INTERNAL_STORAGE" />
       <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     </config-file>
-
-    <edit-config file="AndroidManifest.xml" target="/manifest/uses-sdk" mode="merge">
-      <uses-sdk android:minSdkVersion="21" />
-    </edit-config>
 
     <source-file src="src/android/java/com/janeasystems/cdvnodejsmobile/NodeJS.java" target-dir="src/com/janeasystems/cdvnodejsmobile/" />
 
