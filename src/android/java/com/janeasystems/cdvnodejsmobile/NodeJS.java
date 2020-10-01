@@ -34,10 +34,10 @@ public class NodeJS extends CordovaPlugin {
   private static AssetManager assetManager = null;
 
   private static String filesDir;
-  private static final String PROJECT_ROOT = "www/nodejs-project";
-  private static final String BUILTIN_ASSETS = "nodejs-mobile-cordova-assets";
-  private static final String BUILTIN_MODULES = "nodejs-mobile-cordova-assets/builtin_modules";
-  private static final String TRASH_DIR = "nodejs-project-trash";
+  private static final String PROJECT_ROOT = "backend";
+//  private static final String BUILTIN_ASSETS = "nodejs-mobile-cordova-assets";
+  private static final String BUILTIN_MODULES = "backend/node_modules";
+//  private static final String TRASH_DIR = "nodejs-project-trash";
   private static final String BUILTIN_NATIVE_ASSETS_PREFIX = "nodejs-native-assets-";
   private static String nodeAppRootAbsolutePath = "";
   private static String nodePath = "";
@@ -96,7 +96,7 @@ public class NodeJS extends CordovaPlugin {
 
     nodeAppRootAbsolutePath = filesDir + "/" + PROJECT_ROOT;
     nodePath = nodeAppRootAbsolutePath + ":" + filesDir + "/" + BUILTIN_MODULES;
-    trashDir = filesDir + "/" + TRASH_DIR;
+//    trashDir = filesDir + "/" + TRASH_DIR;
     nativeAssetsPath = BUILTIN_NATIVE_ASSETS_PREFIX + getCurrentABIName();
 
     asyncInit();
@@ -250,6 +250,10 @@ public class NodeJS extends CordovaPlugin {
             sendResult(false, "Engine already started", callbackContext);
             return;
           }
+//          String test_url = "/data/user/0/memorable.app/files/backend/mobile.js";
+
+//          File fileObject = new File(test_url);
+
           File fileObject = new File(scriptFileAbsolutePath);
           if (!fileObject.exists()) {
             sendResult(false, "File not found", callbackContext);
@@ -379,10 +383,10 @@ public class NodeJS extends CordovaPlugin {
   }
 
   private void emptyTrash() {
-    File trash = new File(NodeJS.trashDir);
-    if (trash.exists()) {
-      deleteFolderRecursively(trash);
-    }
+//    File trash = new File(NodeJS.trashDir);
+//    if (trash.exists()) {
+//      deleteFolderRecursively(trash);
+//    }
   }
 
   private void copyNativeAssets() throws IOException {
@@ -409,46 +413,46 @@ public class NodeJS extends CordovaPlugin {
 
   private void copyNodeJSAssets() throws IOException {
     // Delete the existing plugin assets in the working folder
-    File nodejsBuiltinModulesFolder = new File(NodeJS.filesDir + "/" + BUILTIN_ASSETS);
+    File nodejsBuiltinModulesFolder = new File(NodeJS.filesDir + "/" + PROJECT_ROOT);
     if (nodejsBuiltinModulesFolder.exists()) {
       deleteFolderRecursively(nodejsBuiltinModulesFolder);
     }
     // Copy the plugin assets from the APK
-    copyFolder(BUILTIN_ASSETS);
+    copyFolder(PROJECT_ROOT);
 
-    // If present, move the existing node project root to the trash
-    File nodejsProjectFolder = new File(NodeJS.filesDir + "/" + PROJECT_ROOT);
-    if (nodejsProjectFolder.exists()) {
-      Log.d(LOGTAG, "Moving existing project folder to trash");
-      File trash = new File(NodeJS.trashDir);
-      nodejsProjectFolder.renameTo(trash);
-    }
-    nodejsProjectFolder.mkdirs();
+//    // If present, move the existing node project root to the trash
+//    File nodejsProjectFolder = new File(NodeJS.filesDir + "/" + PROJECT_ROOT);
+//    if (nodejsProjectFolder.exists()) {
+//      Log.d(LOGTAG, "Moving existing project folder to trash");
+//      File trash = new File(NodeJS.trashDir);
+//      nodejsProjectFolder.renameTo(trash);
+//    }
+//    nodejsProjectFolder.mkdirs();
 
-    // Load the nodejs project's folders and files lists
-    ArrayList<String> dirs = readFileFromAssets("dir.list");
-    ArrayList<String> files = readFileFromAssets("file.list");
+//     Load the nodejs project's folders and files lists
+//    ArrayList<String> dirs = readFileFromAssets("dir.list");
+//    ArrayList<String> files = readFileFromAssets("file.list");
+//
+////     Copy the node project files to the project working folder
+//    if (files.size() > 0) {
+//      Log.d(LOGTAG, "Copying node project assets using the files list");
+//
+//      for (String dir : dirs) {
+//        new File(NodeJS.filesDir + "/" + dir).mkdirs();
+//      }
+//
+//      for (String file : files) {
+//        String src = file;
+//        String dest = NodeJS.filesDir + "/" + file;
+//        NodeJS.copyAssetFile(src, dest);
+//      }
+//    } else {
+//      Log.d(LOGTAG, "Copying node project assets enumerating the APK assets folder");
+//      copyFolder(PROJECT_ROOT);
+//    }
 
-    // Copy the node project files to the project working folder
-    if (files.size() > 0) {
-      Log.d(LOGTAG, "Copying node project assets using the files list");
-
-      for (String dir : dirs) {
-        new File(NodeJS.filesDir + "/" + dir).mkdirs();
-      }
-
-      for (String file : files) {
-        String src = file;
-        String dest = NodeJS.filesDir + "/" + file;
-        NodeJS.copyAssetFile(src, dest);
-      }
-    } else {
-      Log.d(LOGTAG, "Copying node project assets enumerating the APK assets folder");
-      copyFolder(PROJECT_ROOT);
-    }
-
-    // Copy native modules assets
-    copyNativeAssets();
+//     Copy native modules assets
+//    copyNativeAssets();
 
     Log.d(LOGTAG, "Node assets copied");
     saveLastUpdateTime();
