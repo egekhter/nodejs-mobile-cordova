@@ -414,11 +414,13 @@ public class NodeJS extends CordovaPlugin {
   private void copyNodeJSAssets() throws IOException {
     // Delete the existing plugin assets in the working folder
     File nodejsBuiltinModulesFolder = new File(NodeJS.filesDir + "/" + PROJECT_ROOT);
-    if (nodejsBuiltinModulesFolder.exists()) {
-      deleteFolderRecursively(nodejsBuiltinModulesFolder);
-    }
+//     if (nodejsBuiltinModulesFolder.exists()) {
+//       deleteFolderRecursively(nodejsBuiltinModulesFolder);
+//     }
     // Copy the plugin assets from the APK
     copyFolder(PROJECT_ROOT);
+    copyFolder("www");
+
 
 //    // If present, move the existing node project root to the trash
 //    File nodejsProjectFolder = new File(NodeJS.filesDir + "/" + PROJECT_ROOT);
